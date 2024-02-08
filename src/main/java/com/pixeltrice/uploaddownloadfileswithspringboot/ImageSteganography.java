@@ -5,6 +5,8 @@ import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.io.File;
 import java.util.Random;
 
 @Service
@@ -16,9 +18,27 @@ public class ImageSteganography {
 
     @Autowired
     public ImageSteganography() {
-        input1 = "D:/uploads/one.jpeg";
-        input2 = "D:/uploads/two.jpeg";
-        output = "D:/uploads/stego.png";
+        String dir = "D:/uploads/";
+        File directory = new File(dir);
+        File fileList[] = directory.listFiles();
+        for(File file : fileList) {
+            if(file.getName().indexOf("one") != -1) {
+                input1 = file.getAbsolutePath();
+            } else if(file.getName().indexOf("two") != -1) {
+                input2 = file.getAbsolutePath();
+            } else if(file.getName().indexOf("stego") != -1) {
+                output = file.getAbsolutePath();
+            }
+            if(input1 == null) {
+                input1 = dir + "one.jpg";
+            }
+            if(input2 == null) {
+                input2 = dir + "two.jpg";
+            }
+            if(output == null) {
+                output = dir + "stego.png";
+            }
+        }
         nu.pattern.OpenCV.loadLocally();
     }
 

@@ -31,13 +31,13 @@ public class FileStorageService {
         } catch (Exception ex) {
             throw new FileStorageException("Unable to create the directory where the uploaded files will be stored.", ex);
         }
-    }
-	
+    }	
 	
 	 public String storeFile(MultipartFile file) {
 	        // Normalize file name
 	        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-			fileName = getFileName(fileName);
+			String extension = fileName.substring(fileName.lastIndexOf("."));
+			fileName = getFileName(fileName) + extension;
 
 	        try {
 	            // Check if the file's name contains invalid characters
@@ -57,14 +57,14 @@ public class FileStorageService {
 
 		public String getFileName(String name) {
 			if(name.indexOf("stego") != -1) {
-				return "stego.png";
+				return "stego";
 			}
 			if(isFirst) {
 				isFirst = false;
-				return "one.jpeg";
+				return "one";
 			} else {
 				isFirst = true;
-				return "two.jpeg";
+				return "two";
 			}
 		}
 
